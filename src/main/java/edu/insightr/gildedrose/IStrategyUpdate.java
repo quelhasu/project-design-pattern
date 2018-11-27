@@ -9,15 +9,6 @@ package edu.insightr.gildedrose;
  *
  * @author qunnamed
  */
-public class Sulfuras extends Item {
-
-    public Sulfuras(String name, int sellIn, int quality) {
-        super(name, sellIn, quality);
-    }
-
-    @Override
-    public void accept(IVisitor visitor) {
-        visitor.visit(this);
-    }
-    
+public interface IStrategyUpdate {
+    void update(Item item);
 }

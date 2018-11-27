@@ -9,16 +9,10 @@ package edu.insightr.gildedrose;
  *
  * @author qunnamed
  */
-public interface IVisitor {
+public class SulfurasStrategy implements IStrategyUpdate {
 
-    public void visit(AgedBrie aThis);
-    
-    public void visit(BackstagePasses aThis);
-
-    public void visit(ConjuredItem aThis);
-
-    public void visit(Sulfuras aThis);
-
-    public void visit(OtherItem aThis);
+    @Override
+    public void update(Item item) {
+    }
     
 }

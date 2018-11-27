@@ -1,6 +1,6 @@
 package edu.insightr.gildedrose;
 
-public abstract class Item implements IVisitable {
+public class Item {
 
     private String name;
     private int sellIn;
