@@ -6,8 +6,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="537.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="designpattern.esilv.s7.project.FXMLController">
    <children>
-      <Button fx:id="updateBtn" layoutX="240.0" layoutY="387.0" mnemonicParsing="false" text="Update" />
-      <TableView fx:id="itemTable" layoutX="1.0" layoutY="32.0" prefHeight="332.0" prefWidth="537.0">
+      <Button fx:id="updateBtn" layoutX="240.0" layoutY="412.0" mnemonicParsing="false" onAction="#update" text="Update" />
+      <TableView fx:id="itemTable" layoutX="24.0" layoutY="66.0" prefHeight="332.0" prefWidth="487.0">
       </TableView>
+      <Button fx:id="loadBtn" layoutX="26.0" layoutY="20.0" mnemonicParsing="false" onAction="#loadData" text="Load" />
    </children>
 </AnchorPane>
