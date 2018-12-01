@@ -44,7 +44,6 @@ public class FXMLController implements Initializable {
 
         TableColumn qualityCol = new TableColumn();
         qualityCol.setText("Quality");
-//        qualityCol.setMinWidth(200);
         qualityCol.setCellValueFactory(new PropertyValueFactory("quality"));
 
         itemTable.getColumns().addAll(nameCol, sellInCol, qualityCol);
@@ -75,11 +74,14 @@ public class FXMLController implements Initializable {
 
     @FXML
     public void update() {
-
+        inv.updateQuality();
+        
+        refreshItems();
     }
 
     private void refreshItems() {
         ObservableList<Item> data = FXCollections.observableArrayList(inv.getItems());
+        itemTable.getItems().clear();
         itemTable.setItems(data);
     }
 

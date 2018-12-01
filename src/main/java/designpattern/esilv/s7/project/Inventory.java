@@ -29,12 +29,12 @@ public class Inventory {
         System.out.println("\n");
     }
 
-//    public void updateQuality() {
-//        for(Item item : items) {
-//            UpdateStrategyFactory fact = new UpdateStrategyFactory(item);
-//            fact.strat.update(item);
-//        }
-//    }
+    public void updateQuality() {
+        for(Item item : items) {
+            UpdateStrategyFactory fact = new UpdateStrategyFactory(item);
+            fact.strat.update(item);
+        }
+    }
 
 //    public static void main(String[] args) {
 //        Inventory inventory = new Inventory();
