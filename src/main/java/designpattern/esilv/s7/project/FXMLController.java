@@ -57,9 +57,7 @@ public class FXMLController implements Initializable {
         itemTable.getColumns().addAll(nameCol, sellInCol, qualityCol);
 
         itemTable.setItems(data);
-        
-        
-        
+               
     }
 
     @FXML
@@ -83,12 +81,14 @@ public class FXMLController implements Initializable {
         for(Map.Entry<String, Integer> entry : inv.getStock().entrySet()) {
         	String key = entry.getKey();
         	Integer value = entry.getValue();
-        	pieChartData.add(new PieChart.Data(key, value));
+        	PieChart.Data d = new PieChart.Data(key, value);
+        	d.setName(key);
+        	pieChartData.add(d);
         }
         
         pieChart.setData(pieChartData);
-//        pieChart.setTitle("Imported Fruits");
-		
+        pieChart.setTitle("Inventory PieChart");
+
 	}
 
 	@FXML
@@ -102,6 +102,7 @@ public class FXMLController implements Initializable {
         ObservableList<Item> data = FXCollections.observableArrayList(inv.getItems());
         itemTable.getItems().clear();
         itemTable.setItems(data);
+      
     }
     
    

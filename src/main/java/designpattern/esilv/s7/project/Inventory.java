@@ -85,7 +85,8 @@ public class Inventory {
 	private void updateStock() {
 		for(Item item : items) {
 			int count = stock.containsKey(item.getName()) ? stock.get(item.getName()) : 0;
-			stock.put(item.getName(), count + 1);
+			String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
+			stock.put(name, count + 1);
 		}
 		
 	}

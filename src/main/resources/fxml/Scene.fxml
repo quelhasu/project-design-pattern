@@ -9,30 +9,25 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="725.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="designpattern.esilv.s7.project.FXMLController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="designpattern.esilv.s7.project.FXMLController">
    <children>
-      <TableView fx:id="itemTable" layoutY="345.0" prefHeight="277.0" prefWidth="682.0">
+      <TableView fx:id="itemTable" layoutY="503.0" prefHeight="295.0" prefWidth="1080.0">
       </TableView>
-      <Pane layoutY="622.0" prefHeight="102.0" prefWidth="682.0" style="-fx-background-color: #9DB5B2;">
+      <Pane layoutY="797.0" prefHeight="102.0" prefWidth="1080.0" style="-fx-background-color: #9DB5B2;">
          <children>
-            <Button layoutX="614.0" layoutY="30.0" mnemonicParsing="false" style="-fx-border-color: FFFFFF;" text="Clear">
+            <Button fx:id="loadBtn" layoutX="14.0" layoutY="35.0" mnemonicParsing="false" onAction="#loadData" style="-fx-border-color: FFFFFF;" text="Load" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="loadBtn" layoutX="14.0" layoutY="30.0" mnemonicParsing="false" onAction="#loadData" style="-fx-border-color: FFFFFF;" text="Load" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="updateBtn" layoutX="307.0" layoutY="30.0" mnemonicParsing="false" onAction="#update" style="-fx-border-color: FFFFFF;" text="Update">
+            <Button fx:id="updateBtn" layoutX="995.0" layoutY="35.0" mnemonicParsing="false" onAction="#update" style="-fx-border-color: FFFFFF;" text="Update">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
          </children>
       </Pane>
-      <Pane prefHeight="76.0" prefWidth="682.0" style="-fx-background-color: #9DB5B2;">
+      <Pane prefHeight="81.0" prefWidth="1080.0" style="-fx-background-color: #9DB5B2;">
          <children>
             <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: FFFFFF;" text="Dashboard" wrappingWidth="108.3680419921875">
                <font>
@@ -41,9 +36,9 @@
             </Text>
          </children>
       </Pane>
-      <VBox layoutX="376.0" layoutY="76.0" prefHeight="271.0" prefWidth="302.0">
+      <VBox layoutX="514.0" layoutY="81.0" prefHeight="423.0" prefWidth="566.0">
          <children>
-            <PieChart fx:id="pieChart" prefHeight="260.0" prefWidth="200.0" />
+            <PieChart fx:id="pieChart" clockwise="false" labelLineLength="50.0" labelsVisible="false" prefHeight="402.0" prefWidth="566.0" />
          </children>
       </VBox>
    </children>
