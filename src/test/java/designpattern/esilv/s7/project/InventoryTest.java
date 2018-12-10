@@ -4,19 +4,28 @@
  * and open the template in the editor.
  */
 package designpattern.esilv.s7.project;
-
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
+import org.junit.runner.RunWith;
 import static org.hamcrest.core.Is.is;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import static org.junit.Assert.*;
 
 /**
  *
  * @author victorseguin
+ * @author fenohanta
  */
+
+
+@RunWith(Cucumber.class)
+@CucumberOptions(strict=true)
 public class InventoryTest {
     protected Inventory inv;
     Item[] ancienneListeDesItems;
