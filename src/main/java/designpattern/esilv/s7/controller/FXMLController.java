@@ -1,4 +1,4 @@
-package designpattern.esilv.s7.project;
+package designpattern.esilv.s7.controller;
 
 import java.io.File;
 import java.net.URL;
@@ -15,6 +15,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import com.google.gson.Gson;
+import designpattern.esilv.s7.model.Inventory;
+import designpattern.esilv.s7.model.Item;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;

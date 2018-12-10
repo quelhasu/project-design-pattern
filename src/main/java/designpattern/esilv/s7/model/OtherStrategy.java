@@ -3,26 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package designpattern.esilv.s7.project;
+package designpattern.esilv.s7.model;
 
 /**
  *
  * @author qunnamed
  */
-public class AgedBrieStrategy implements IStrategyUpdate{
+public class OtherStrategy implements IStrategyUpdate {
 
     @Override
     public void update(Item item) {
         // Quality change
         int rate = item.isExpired() ? 2 : 1;
-        item.setQuality(item.getQuality() + rate);
+        item.setQuality(item.getQuality() - rate);
 
         // SellIn change
         item.setSellIn(item.getSellIn() - 1);
 
         // If Expired
-        if  (item.isExpired()) {
-            item.setQuality (item.getQuality() + 1);
+        if (item.isExpired()) {
+            item.setQuality(item.getQuality() - 1);
         }
     }
     

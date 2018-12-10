@@ -1,4 +1,4 @@
-package designpattern.esilv.s7.project;
+package designpattern.esilv.s7.model;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;

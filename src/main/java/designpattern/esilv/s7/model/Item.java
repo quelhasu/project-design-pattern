@@ -1,4 +1,4 @@
-package designpattern.esilv.s7.project;
+package designpattern.esilv.s7.model;
 
 public class Item {
 
