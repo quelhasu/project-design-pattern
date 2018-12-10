@@ -1,4 +1,4 @@
-package designpattern.esilv.s7.project;
+package designpattern.esilv.s7.model;
 
 /**
  * TODO - updateSellin
@@ -44,11 +44,11 @@ public class Inventory {
 //        }
 //    }
 
-    Item[] getItems() {
+    public Item[] getItems() {
         return items;
     }
 
-    void setItems(Item[] itemArray) {
+    public void setItems(Item[] itemArray) {
         items = itemArray;
     }
 }
