@@ -62,11 +62,12 @@ public class InventoryTest {
     {
         inv.updateQuality();
         Item[] items = inv.getItems();
+        
         for (int i=0;i < items.length;i++)
         {
             if (items[i].getName().equals("Sulfuras, Hand of Ragnaros"))
             {
-                assertFalse(items[i].getQuality() < ancienneListeDesItems[i].getQuality());
+                assertTrue(items[i].getQuality() == ancienneListeDesItems[i].getQuality());
             }
         }
     }
@@ -126,10 +127,37 @@ public class InventoryTest {
             }
         }
     }
-
-
+    
     @Test
-    public void updateQuality(){
+    public void testBackStagePassesQualityGoesToZero() throws Exception
+    {
+        inv.updateQuality();
+        Item[] items = inv.getItems();
+        for (int i=0;i < items.length;i++)
+        {
+            if (items[i].getName().equals("Backstage passes to a TAFKAL80ETC concert") && items[i].getSellIn() > 0)
+            {
+                assertTrue(items[i].getQuality() == 0);
+            }
+        }
+    }
+    
+    @Test
+    public void QualityItemIsNotMoreThanFifty() throws Exception
+    {
+                inv.updateQuality();
+        Item[] items = inv.getItems();
+
+        for(int i = 0; i < items.length; i++)
+            {
+                assertTrue(items[i].getQuality() <= 50);
+            }
+    }
+
+
+    
+    @Test
+    public void updateConjuredCakeQuality(){
 
         Item[] items = inv.getItems();
         
@@ -141,23 +169,9 @@ public class InventoryTest {
                 assertThat(items[i].getQuality(),is(6));
                 inv.updateQuality();
                 
-                assertThat(items[i].getQuality(),is(7));
+                assertThat(items[i].getQuality(),is(4));
             }
         }
-    }
-
-    @org.junit.Test
-    public void getItems() {
-    }
-
-    @org.junit.Test
-    public void setItems() {
-    }
-
-    @After
-    public void tearDown()
-    {
-
     }
 }
 
