@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 /**
  *
  * @author victorseguin
- * @author fenohanta
  */
 
 
