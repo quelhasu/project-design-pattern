@@ -55,8 +55,13 @@ public class FXMLController implements Initializable {
         TableColumn qualityCol = new TableColumn();
         qualityCol.setText("Quality");
         qualityCol.setCellValueFactory(new PropertyValueFactory("quality"));
+        
+        TableColumn dateCol = new TableColumn();
+        dateCol.setText("Creation Date");
+        dateCol.setMinWidth(100);
+        dateCol.setCellValueFactory(new PropertyValueFactory("creationDate"));
 
-        itemTable.getColumns().addAll(nameCol, sellInCol, qualityCol);
+        itemTable.getColumns().addAll(dateCol, nameCol, sellInCol, qualityCol);
 
         itemTable.setItems(data);
                

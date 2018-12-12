@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 import com.google.gson.Gson;
 import com.sun.javafx.collections.MappingChange.Map;
 import designpattern.esilv.s7.controller.FXMLController;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * TODO - updateSellin
@@ -73,6 +75,7 @@ public class Inventory {
 
             Gson gson = new Gson();
             Item[] itemArray = gson.fromJson(itemJson, Item[].class);
+            setCreationDate(itemArray);
             this.setItems(itemArray);
         } catch (IOException ex) {
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,5 +91,11 @@ public class Inventory {
             stock.put(name, count + 1);
         }
 
+    }
+
+    private void setCreationDate(Item[] itemArray) {
+        for(Item item : itemArray){
+            item.setCreationDate(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
+        }
     }
 }

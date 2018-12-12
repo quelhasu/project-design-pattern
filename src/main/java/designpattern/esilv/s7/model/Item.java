@@ -1,6 +1,7 @@
 package designpattern.esilv.s7.model;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
@@ -10,18 +11,22 @@ public class Item {
     private String name;
     private int sellIn;
     private int quality;
-    private Date creationDate;
-    
-    
+    private String creationDate;
 
     public Item(String name, int sellIn, int quality) {
         super();
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
-        
-        Calendar currenttime = Calendar.getInstance();
-        this.creationDate = new Date((currenttime.getTime()).getTime());
+        this.creationDate = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getName() {
@@ -47,17 +52,14 @@ public class Item {
     public void setQuality(int quality) {
         this.quality = quality;
     }
-    
-    boolean isExpired(){
+
+    boolean isExpired() {
         return this.sellIn < 0;
     }
 
     @Override
     public String toString() {
-        return "Item{" +
-                "name='" + name + '\'' +
-                ", sellIn=" + sellIn +
-                ", quality=" + quality +
-                '}';
+        return "Item{" + "name=" + name + ", sellIn=" + sellIn + ", quality=" + quality + ", creationDate=" + creationDate + '}';
     }
+
 }
