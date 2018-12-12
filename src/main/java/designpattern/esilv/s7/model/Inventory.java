@@ -85,7 +85,7 @@ public class Inventory {
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        this.updateStock();
+//        this.updateStock();
     }
 
     public void updateStock() {
@@ -94,7 +94,8 @@ public class Inventory {
             String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
             stock.put(name, count + 1);
         }
-
+        
+        
     }
 
     private void setCreationDate(Item[] itemArray) {
@@ -118,6 +119,10 @@ public class Inventory {
 
     private void addItem(Item item) {
         items.add(item);
+        String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
+        int count = stock.containsKey(name) ? stock.get(name) : 0;
+        stock.put(name, count + 1);
+        
     }
     
     private void deleteItem(Item item){
