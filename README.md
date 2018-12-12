@@ -1,5 +1,5 @@
-<main class="markdown-body">
 <img src="https://ibin.co/4Pl7fJF6NVWO.png" height=80 align=right>
+`
 # GildedRoseJavaKata
 > Design Pattern Project
 
