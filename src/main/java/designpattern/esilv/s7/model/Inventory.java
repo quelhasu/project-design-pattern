@@ -104,7 +104,7 @@ public class Inventory {
         }
     }
 
-    private void addItems(Item[] itemArray) {
+    public void addItems(Item[] itemArray) {
         for(Item newItem : itemArray){
             boolean ok = true;
             for(Item invItem : items){
@@ -117,7 +117,7 @@ public class Inventory {
         }
     }
 
-    private void addItem(Item item) {
+    public void addItem(Item item) {
         items.add(item);
         String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
         int count = stock.containsKey(name) ? stock.get(name) : 0;
@@ -125,7 +125,9 @@ public class Inventory {
         
     }
     
-    private void deleteItem(Item item){
+    public void deleteItem(Item item){
         items.remove(item);
+        String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
+        stock.put(name, stock.get(name) - 1);
     }
 }
