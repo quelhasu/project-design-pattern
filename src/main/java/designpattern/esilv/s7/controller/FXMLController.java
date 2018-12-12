@@ -35,7 +35,7 @@ public class FXMLController implements Initializable {
     @FXML
     private TableView itemTable;
     @FXML
-    private Button updateBtn; 
+    private Button updateBtn;
     @FXML
     private Button buyBtn;
     @FXML
@@ -43,7 +43,7 @@ public class FXMLController implements Initializable {
     @FXML
     private Button clearBtn;
     @FXML
-    private Label selectedItemLbl;
+    private Label infoLbl;
     @FXML
     private TextField typeTf;
     @FXML
@@ -54,14 +54,14 @@ public class FXMLController implements Initializable {
     private Label dateLbl;
     @FXML
     private Label IDLbl;
-    
+
     @FXML
-    private PieChart pieChart; 
-    
-    
+    private PieChart pieChart;
+
     Inventory inv;
-    
-    
+
+    Item selectedItem;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         inv = new Inventory();
@@ -79,12 +79,12 @@ public class FXMLController implements Initializable {
         TableColumn qualityCol = new TableColumn();
         qualityCol.setText("Quality");
         qualityCol.setCellValueFactory(new PropertyValueFactory("quality"));
-        
+
         TableColumn dateCol = new TableColumn();
         dateCol.setText("Creation Date");
         dateCol.setMinWidth(100);
         dateCol.setCellValueFactory(new PropertyValueFactory("creationDate"));
-        
+
         TableColumn idCol = new TableColumn();
         idCol.setText("ID");
         idCol.setCellValueFactory(new PropertyValueFactory("serialId"));
@@ -92,19 +92,22 @@ public class FXMLController implements Initializable {
         itemTable.getColumns().addAll(idCol, dateCol, nameCol, sellInCol, qualityCol);
         itemTable.getSelectionModel().selectedItemProperty().addListener(e -> displayItemDetails((Item) itemTable.getSelectionModel().getSelectedItem()));
         itemTable.setItems(data);
-               
+
     }
-    
+
     private void displayItemDetails(Item item) {
-        activateSellItem();
-        typeTf.setText(item.getName());
-        sellInTf.setText(Integer.toString(item.getSellIn()));
-        qualityTf.setText(Integer.toString(item.getQuality()));
-        IDLbl.setText(Integer.toString(item.getSerialId()));
-        dateLbl.setText(item.getCreationDate());
+        if (item != null) {
+            selectedItem = item;
+            activateSellItem();
+            typeTf.setText(item.getName());
+            sellInTf.setText(Integer.toString(item.getSellIn()));
+            qualityTf.setText(Integer.toString(item.getQuality()));
+            IDLbl.setText(Integer.toString(item.getSerialId()));
+            dateLbl.setText(item.getCreationDate());
+        }
     }
-    
-    private void activateSellItem(){
+
+    private void activateSellItem() {
         sellBtn.setDisable(false);
         buyBtn.setDisable(true);
         clearBtn.setDisable(false);
@@ -112,21 +115,38 @@ public class FXMLController implements Initializable {
         sellInTf.setEditable(false);
         qualityTf.setEditable(false);
     }
-    
+
     @FXML
-    private void activateBuyItem(){
+    private void activateBuyItem() {
+        clearInput();
         sellBtn.setDisable(true);
         buyBtn.setDisable(false);
-        typeTf.setText("");
-        sellInTf.setText("");
-        qualityTf.setText("");
-        IDLbl.setText("");
-        dateLbl.setText("");
         typeTf.setEditable(true);
         sellInTf.setEditable(true);
         qualityTf.setEditable(true);
     }
 
+    private void clearInput() {
+        typeTf.setText("");
+        sellInTf.setText("");
+        qualityTf.setText("");
+        IDLbl.setText("");
+        dateLbl.setText("");
+    }
+
+    @FXML
+    private void buyItem() {
+
+    }
+
+    @FXML
+    private void sellItem() {
+        clearInput();
+        inv.deleteItem(selectedItem);
+        refreshItemsView();
+        refreshStockView();
+        infoLbl.setText("Item " + selectedItem.getSerialId() + " correctly sold!");
+    }
 
     @FXML
     public void loadData() {
@@ -136,39 +156,39 @@ public class FXMLController implements Initializable {
         File file = fileChooser.showOpenDialog(new Stage());
 //        String dataFileName = file.getName();
 //         System.out.println("File URI : " + file.toPath());
-        
+
         inv.loadData(file, itemJson);
-        refreshItems();
-        refreshStock();
+        refreshItemsView();
+        refreshStockView();
     }
 
-    private void refreshStock() {
-    	ObservableList<PieChart.Data> pieChartData =
-                FXCollections.observableArrayList();
-        
-        for(Map.Entry<String, Integer> entry : inv.getStock().entrySet()) {
-        	String key = entry.getKey();
-        	Integer value = entry.getValue();
-        	PieChart.Data d = new PieChart.Data(key, value);
-        	d.setName(key);
-        	pieChartData.add(d);
+    private void refreshStockView() {
+        ObservableList<PieChart.Data> pieChartData
+            = FXCollections.observableArrayList();
+
+        for (Map.Entry<String, Integer> entry : inv.getStock().entrySet()) {
+            String key = entry.getKey();
+            Integer value = entry.getValue();
+            PieChart.Data d = new PieChart.Data(key, value);
+            d.setName(key);
+            pieChartData.add(d);
         }
-        
+
         pieChart.setData(pieChartData);
         pieChart.setTitle("Inventory PieChart");
 
-	}
-
-	@FXML
-    public void update() {
-        inv.updateQuality();
-        refreshItems();
     }
 
-    private void refreshItems() {
+    @FXML
+    public void update() {
+        inv.updateQuality();
+        refreshItemsView();
+    }
+
+    private void refreshItemsView() {
         ObservableList<Item> data = FXCollections.observableArrayList(inv.getItems());
         itemTable.getItems().clear();
         itemTable.setItems(data);
-      
+
     }
 }
