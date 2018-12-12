@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.InvalidationListener;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -39,6 +40,8 @@ public class FXMLController implements Initializable {
     private Button buyBtn;
     @FXML
     private Button sellBtn;
+    @FXML
+    private Button clearBtn;
     @FXML
     private Label selectedItemLbl;
     @FXML
@@ -87,10 +90,43 @@ public class FXMLController implements Initializable {
         idCol.setCellValueFactory(new PropertyValueFactory("serialId"));
 
         itemTable.getColumns().addAll(idCol, dateCol, nameCol, sellInCol, qualityCol);
-
+        itemTable.getSelectionModel().selectedItemProperty().addListener(e -> displayItemDetails((Item) itemTable.getSelectionModel().getSelectedItem()));
         itemTable.setItems(data);
                
     }
+    
+    private void displayItemDetails(Item item) {
+        activateSellItem();
+        typeTf.setText(item.getName());
+        sellInTf.setText(Integer.toString(item.getSellIn()));
+        qualityTf.setText(Integer.toString(item.getQuality()));
+        IDLbl.setText(Integer.toString(item.getSerialId()));
+        dateLbl.setText(item.getCreationDate());
+    }
+    
+    private void activateSellItem(){
+        sellBtn.setDisable(false);
+        buyBtn.setDisable(true);
+        clearBtn.setDisable(false);
+        typeTf.setEditable(false);
+        sellInTf.setEditable(false);
+        qualityTf.setEditable(false);
+    }
+    
+    @FXML
+    private void activateBuyItem(){
+        sellBtn.setDisable(true);
+        buyBtn.setDisable(false);
+        typeTf.setText("");
+        sellInTf.setText("");
+        qualityTf.setText("");
+        IDLbl.setText("");
+        dateLbl.setText("");
+        typeTf.setEditable(true);
+        sellInTf.setEditable(true);
+        qualityTf.setEditable(true);
+    }
+
 
     @FXML
     public void loadData() {
@@ -135,10 +171,4 @@ public class FXMLController implements Initializable {
         itemTable.setItems(data);
       
     }
-    
-   
-
-    
-
-
 }
