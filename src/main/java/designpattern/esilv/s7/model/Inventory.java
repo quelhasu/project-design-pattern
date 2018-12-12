@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.sun.javafx.collections.MappingChange.Map;
 import designpattern.esilv.s7.controller.FXMLController;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -20,17 +21,18 @@ import java.util.Calendar;
  */
 public class Inventory {
 
-    private Item[] items;
+//    private Item[] items;
+    private ArrayList<Item> items;
     private HashMap<String, Integer> stock;
 
     public Inventory(Item[] items) {
         super();
-        this.items = items;
+        this.items = new ArrayList<Item>();
     }
 
     public Inventory() {
         super();
-        items = new Item[]{};
+        items = new ArrayList<Item>();
         stock = new HashMap<String, Integer>();
     }
 
@@ -57,7 +59,7 @@ public class Inventory {
 //            inventory.printInventory();
 //        }
 //    }
-    public Item[] getItems() {
+    public ArrayList<Item> getItems() {
         return items;
     }
 
@@ -65,18 +67,20 @@ public class Inventory {
         return stock;
     }
 
-    public void setItems(Item[] itemArray) {
+    public void setItems(ArrayList<Item> itemArray) {
         items = itemArray;
     }
 
     public void loadData(File file, String itemJson) {
         try {
             itemJson = new String(Files.readAllBytes(file.toPath()));
-
             Gson gson = new Gson();
             Item[] itemArray = gson.fromJson(itemJson, Item[].class);
             setCreationDate(itemArray);
-            this.setItems(itemArray);
+            
+            addItems(itemArray);
+            
+//            this.setItems(itemArray);
         } catch (IOException ex) {
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -97,5 +101,26 @@ public class Inventory {
         for(Item item : itemArray){
             item.setCreationDate(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
         }
+    }
+
+    private void addItems(Item[] itemArray) {
+        for(Item newItem : itemArray){
+            boolean ok = true;
+            for(Item invItem : items){
+                if(newItem.getSerialId() == invItem.getSerialId()){
+                    ok = false;
+                    continue;
+                }
+            }
+            if(ok) addItem(newItem);
+        }
+    }
+
+    private void addItem(Item item) {
+        items.add(item);
+    }
+    
+    private void deleteItem(Item item){
+        items.remove(item);
     }
 }

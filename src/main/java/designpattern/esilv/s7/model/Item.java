@@ -7,7 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class Item {
-
+    private static int counter = 0;
+    private int serialId;
     private String name;
     private int sellIn;
     private int quality;
@@ -19,6 +20,20 @@ public class Item {
         this.sellIn = sellIn;
         this.quality = quality;
         this.creationDate = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
+        this.serialId = ++counter;
+    }
+
+    public int getSerialId() {
+        return serialId;
+    }
+
+    public void setSerialId(int serialId) {
+        this.serialId = serialId;
+        counter++;
+    }
+    
+    public void setSerialId(){
+        this.serialId = ++counter;
     }
 
     public String getCreationDate() {

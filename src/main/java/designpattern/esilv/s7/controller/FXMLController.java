@@ -60,8 +60,12 @@ public class FXMLController implements Initializable {
         dateCol.setText("Creation Date");
         dateCol.setMinWidth(100);
         dateCol.setCellValueFactory(new PropertyValueFactory("creationDate"));
+        
+        TableColumn idCol = new TableColumn();
+        idCol.setText("ID");
+        idCol.setCellValueFactory(new PropertyValueFactory("serialId"));
 
-        itemTable.getColumns().addAll(dateCol, nameCol, sellInCol, qualityCol);
+        itemTable.getColumns().addAll(idCol, dateCol, nameCol, sellInCol, qualityCol);
 
         itemTable.setItems(data);
                
@@ -74,7 +78,7 @@ public class FXMLController implements Initializable {
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(new Stage());
 //        String dataFileName = file.getName();
-//         System.out.println("File URI : " + file.getAbsolutePath());
+//         System.out.println("File URI : " + file.toPath());
         
         inv.loadData(file, itemJson);
         refreshItems();
