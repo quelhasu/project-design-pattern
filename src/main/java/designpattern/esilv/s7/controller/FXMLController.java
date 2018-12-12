@@ -2,11 +2,16 @@ package designpattern.esilv.s7.controller;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -29,6 +34,9 @@ public class FXMLController implements Initializable {
     @FXML
     private Button updateBtn;
     Inventory inv;
+    
+    @FXML
+    private PieChart pieChart; 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -51,30 +59,41 @@ public class FXMLController implements Initializable {
         itemTable.getColumns().addAll(nameCol, sellInCol, qualityCol);
 
         itemTable.setItems(data);
+               
     }
 
     @FXML
     public void loadData() {
-        String itemJson;
+        String itemJson = null;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(new Stage());
 //        String dataFileName = file.getName();
 //         System.out.println("File URI : " + file.getAbsolutePath());
-        try {
-            itemJson = new String(Files.readAllBytes(file.toPath()));
-
-            Gson gson = new Gson();
-            Item[] itemArray = gson.fromJson(itemJson, Item[].class);
-            inv.setItems(itemArray);
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        inv.loadData(file, itemJson);
         refreshItems();
-
+        refreshStock();
     }
 
-    @FXML
+    private void refreshStock() {
+    	ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList();
+        
+        for(Map.Entry<String, Integer> entry : inv.getStock().entrySet()) {
+        	String key = entry.getKey();
+        	Integer value = entry.getValue();
+        	PieChart.Data d = new PieChart.Data(key, value);
+        	d.setName(key);
+        	pieChartData.add(d);
+        }
+        
+        pieChart.setData(pieChartData);
+        pieChart.setTitle("Inventory PieChart");
+
+	}
+
+	@FXML
     public void update() {
         inv.updateQuality();
         
@@ -85,6 +104,12 @@ public class FXMLController implements Initializable {
         ObservableList<Item> data = FXCollections.observableArrayList(inv.getItems());
         itemTable.getItems().clear();
         itemTable.setItems(data);
+      
     }
+    
+   
+
+    
+
 
 }
