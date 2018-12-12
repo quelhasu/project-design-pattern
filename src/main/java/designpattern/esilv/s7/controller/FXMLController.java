@@ -26,26 +26,47 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class FXMLController implements Initializable {
 
     @FXML
     private TableView itemTable;
     @FXML
-    private Button updateBtn;
-    Inventory inv;
+    private Button updateBtn; 
+    @FXML
+    private Button buyBtn;
+    @FXML
+    private Button sellBtn;
+    @FXML
+    private Label selectedItemLbl;
+    @FXML
+    private TextField typeTf;
+    @FXML
+    private TextField sellInTf;
+    @FXML
+    private TextField qualityTf;
+    @FXML
+    private Label dateLbl;
+    @FXML
+    private Label IDLbl;
     
     @FXML
     private PieChart pieChart; 
-
+    
+    
+    Inventory inv;
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         inv = new Inventory();
         ObservableList<Item> data = FXCollections.observableArrayList(inv.getItems());
 
         TableColumn nameCol = new TableColumn();
-        nameCol.setText("Name");
-        nameCol.setMinWidth(300);
+        nameCol.setText("Type");
+        nameCol.setMinWidth(270);
         nameCol.setCellValueFactory(new PropertyValueFactory("name"));
 
         TableColumn sellInCol = new TableColumn();
@@ -105,7 +126,6 @@ public class FXMLController implements Initializable {
 	@FXML
     public void update() {
         inv.updateQuality();
-        
         refreshItems();
     }
 
