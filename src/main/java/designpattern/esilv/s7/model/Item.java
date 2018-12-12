@@ -1,17 +1,27 @@
 package designpattern.esilv.s7.model;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+
 public class Item {
 
     private String name;
     private int sellIn;
-
     private int quality;
+    private Date creationDate;
+    
+    
 
     public Item(String name, int sellIn, int quality) {
         super();
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
+        
+        Calendar currenttime = Calendar.getInstance();
+        this.creationDate = new Date((currenttime.getTime()).getTime());
     }
 
     public String getName() {
