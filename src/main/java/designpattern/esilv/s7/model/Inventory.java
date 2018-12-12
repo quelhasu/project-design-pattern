@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.sun.javafx.collections.MappingChange.Map;
+import designpattern.esilv.s7.controller.FXMLController;
 
 /**
  * TODO - updateSellin
@@ -19,7 +20,6 @@ public class Inventory {
 
     private Item[] items;
     private HashMap<String, Integer> stock;
-
 
     public Inventory(Item[] items) {
         super();
@@ -42,7 +42,7 @@ public class Inventory {
     }
 
     public void updateQuality() {
-        for(Item item : items) {
+        for (Item item : items) {
             UpdateStrategyFactory fact = new UpdateStrategyFactory(item);
             fact.strat.update(item);
         }
@@ -55,21 +55,20 @@ public class Inventory {
 //            inventory.printInventory();
 //        }
 //    }
-
     public Item[] getItems() {
         return items;
     }
-    
-    HashMap<String, Integer> getStock(){
-    	return stock;
+
+    public HashMap<String, Integer> getStock() {
+        return stock;
     }
 
     public void setItems(Item[] itemArray) {
         items = itemArray;
     }
 
-	public void loadData(File file, String itemJson) {
-		try {
+    public void loadData(File file, String itemJson) {
+        try {
             itemJson = new String(Files.readAllBytes(file.toPath()));
 
             Gson gson = new Gson();
@@ -78,16 +77,16 @@ public class Inventory {
         } catch (IOException ex) {
             Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
-		
-		this.updateStock();
-	}
 
-	private void updateStock() {
-		for(Item item : items) {
-			int count = stock.containsKey(item.getName()) ? stock.get(item.getName()) : 0;
-			String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
-			stock.put(name, count + 1);
-		}
-		
-	}
+        this.updateStock();
+    }
+
+    public void updateStock() {
+        for (Item item : items) {
+            int count = stock.containsKey(item.getName()) ? stock.get(item.getName()) : 0;
+            String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
+            stock.put(name, count + 1);
+        }
+
+    }
 }
