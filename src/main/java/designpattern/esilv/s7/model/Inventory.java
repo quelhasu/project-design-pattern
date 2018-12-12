@@ -130,4 +130,16 @@ public class Inventory {
         String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
         stock.put(name, stock.get(name) - 1);
     }
+
+
+    public boolean notContains(int newItemID) {
+        boolean notIn = true;
+        for(Item item : items){
+            if(item.getSerialId() == newItemID) {
+                notIn = false;
+                break;
+            }
+        }
+        return notIn;
+    }
 }

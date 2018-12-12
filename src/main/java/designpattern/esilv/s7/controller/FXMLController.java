@@ -53,7 +53,7 @@ public class FXMLController implements Initializable {
     @FXML
     private Label dateLbl;
     @FXML
-    private Label IDLbl;
+    private TextField IdTf;
 
     @FXML
     private PieChart pieChart;
@@ -102,7 +102,7 @@ public class FXMLController implements Initializable {
             typeTf.setText(item.getName());
             sellInTf.setText(Integer.toString(item.getSellIn()));
             qualityTf.setText(Integer.toString(item.getQuality()));
-            IDLbl.setText(Integer.toString(item.getSerialId()));
+            IdTf.setText(Integer.toString(item.getSerialId()));
             dateLbl.setText(item.getCreationDate());
         }
     }
@@ -114,6 +114,7 @@ public class FXMLController implements Initializable {
         typeTf.setEditable(false);
         sellInTf.setEditable(false);
         qualityTf.setEditable(false);
+        IdTf.setEditable(false);
     }
 
     @FXML
@@ -124,71 +125,133 @@ public class FXMLController implements Initializable {
         typeTf.setEditable(true);
         sellInTf.setEditable(true);
         qualityTf.setEditable(true);
+        IdTf.setEditable(true);
     }
 
     private void clearInput() {
         typeTf.setText("");
         sellInTf.setText("");
         qualityTf.setText("");
-        IDLbl.setText("");
+        IdTf.setText("");
         dateLbl.setText("");
     }
 
     @FXML
     private void buyItem() {
+        Item newItem = null;
+        try {
+            newItem = new Item(Integer.parseInt(IdTf.getText()), typeTf.getText(), Integer.parseInt(sellInTf.getText()), Integer.parseInt(qualityTf.getText()));
+            if (inv.notContains(Integer.parseInt(IdTf.getText()))) {
+                inv.addItem(newItem);
+                infoLbl.setText("Item " + newItem.getSerialId() + " correctly bought!");
+                refreshItemsView();
+                refreshStockView();
+                clearInput();
+
+            } else {
+                infoLbl.setText("Item " + newItem.getSerialId() + " can't be buy, ID already exist!");
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println(e);
+        }
 
     }
 
     @FXML
     private void sellItem() {
         clearInput();
-        inv.deleteItem(selectedItem);
+        inv
+            .deleteItem(selectedItem
+            );
         refreshItemsView();
         refreshStockView();
-        infoLbl.setText("Item " + selectedItem.getSerialId() + " correctly sold!");
+        infoLbl
+            .setText("Item " + selectedItem
+                .getSerialId() + " correctly sold!");
+        activateBuyItem();
+
     }
 
     @FXML
     public void loadData() {
-        String itemJson = null;
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        File file = fileChooser.showOpenDialog(new Stage());
+        String itemJson
+            = null;
+        FileChooser fileChooser
+            = new FileChooser();
+        fileChooser
+            .setTitle("Open Resource File");
+        File file
+            = fileChooser
+                .showOpenDialog(new Stage());
 //        String dataFileName = file.getName();
 //         System.out.println("File URI : " + file.toPath());
 
-        inv.loadData(file, itemJson);
+        inv
+            .loadData(file,
+                 itemJson
+            );
         refreshItemsView();
         refreshStockView();
+        updateBtn
+            .setDisable(false);
+        activateBuyItem();
+
     }
 
     private void refreshStockView() {
         ObservableList<PieChart.Data> pieChartData
-            = FXCollections.observableArrayList();
+            = FXCollections
+                .observableArrayList();
 
-        for (Map.Entry<String, Integer> entry : inv.getStock().entrySet()) {
-            String key = entry.getKey();
-            Integer value = entry.getValue();
-            PieChart.Data d = new PieChart.Data(key, value);
-            d.setName(key);
-            pieChartData.add(d);
+        for (Map.Entry<String, Integer> entry
+            : inv
+                .getStock().entrySet()) {
+            String key
+                = entry
+                    .getKey();
+            Integer value
+                = entry
+                    .getValue();
+            PieChart.Data d
+                = new PieChart.Data(key,
+                     value
+                );
+            d
+                .setName(key
+                );
+            pieChartData
+                .add(d
+                );
+
         }
 
-        pieChart.setData(pieChartData);
-        pieChart.setTitle("Inventory PieChart");
+        pieChart
+            .setData(pieChartData
+            );
+        pieChart
+            .setTitle("Inventory PieChart");
 
     }
 
     @FXML
     public void update() {
-        inv.updateQuality();
+        inv
+            .updateQuality();
         refreshItemsView();
+
     }
 
     private void refreshItemsView() {
-        ObservableList<Item> data = FXCollections.observableArrayList(inv.getItems());
-        itemTable.getItems().clear();
-        itemTable.setItems(data);
+        ObservableList<Item> data
+            = FXCollections
+                .observableArrayList(inv
+                    .getItems());
+        itemTable
+            .getItems().clear();
+        itemTable
+            .setItems(data
+            );
 
     }
 }

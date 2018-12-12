@@ -7,20 +7,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class Item {
-    private static int counter = 0;
+//    private static int counter = 0;
     private int serialId;
     private String name;
     private int sellIn;
     private int quality;
     private String creationDate;
 
-    public Item(String name, int sellIn, int quality) {
+    public Item(int ID, String name, int sellIn, int quality) {
         super();
         this.name = name;
         this.sellIn = sellIn;
         this.quality = quality;
-        this.creationDate = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-        this.serialId = ++counter;
+        this.creationDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        this.serialId = ID;
     }
 
     public int getSerialId() {
@@ -29,11 +29,6 @@ public class Item {
 
     public void setSerialId(int serialId) {
         this.serialId = serialId;
-        counter++;
-    }
-    
-    public void setSerialId(){
-        this.serialId = ++counter;
     }
 
     public String getCreationDate() {
