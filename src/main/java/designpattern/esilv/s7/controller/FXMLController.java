@@ -174,7 +174,7 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    public void loadData() {
+    public void loadData() throws IOException {
         String itemJson
             = null;
         FileChooser fileChooser
@@ -186,11 +186,8 @@ public class FXMLController implements Initializable {
                 .showOpenDialog(new Stage());
 //        String dataFileName = file.getName();
 //         System.out.println("File URI : " + file.toPath());
-
-        inv
-            .loadData(file,
-                 itemJson
-            );
+        itemJson = new String(Files.readAllBytes(file.toPath()));
+        inv.loadData(itemJson);
         refreshItemsView();
         refreshStockView();
         updateBtn

@@ -71,21 +71,13 @@ public class Inventory {
         items = itemArray;
     }
 
-    public void loadData(File file, String itemJson) {
-        try {
-            itemJson = new String(Files.readAllBytes(file.toPath()));
-            Gson gson = new Gson();
-            Item[] itemArray = gson.fromJson(itemJson, Item[].class);
-            setCreationDate(itemArray);
-            
-            addItems(itemArray);
-            
-//            this.setItems(itemArray);
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void loadData(String itemJson) {
+        Gson gson = new Gson();
+        System.out.println("ZIZI : "  + itemJson);
+        Item[] itemArray = gson.fromJson(itemJson, Item[].class);
+        setCreationDate(itemArray);
 
-//        this.updateStock();
+        addItems(itemArray);
     }
 
     public void updateStock() {
@@ -94,53 +86,51 @@ public class Inventory {
             String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
             stock.put(name, count + 1);
         }
-        
-        
+
     }
 
     private void setCreationDate(Item[] itemArray) {
-        for(Item item : itemArray){
+        for (Item item : itemArray) {
             item.setCreationDate(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
         }
     }
 
     public void addItems(Item[] itemArray) {
-        for(Item newItem : itemArray){
+        for (Item newItem : itemArray) {
             addItem(newItem);
         }
     }
 
     public void addItem(Item item) {
-        if(itemIDNotExist(item)){
+        if (itemIDNotExist(item)) {
             items.add(item);
             String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
             int count = stock.containsKey(name) ? stock.get(name) : 0;
             stock.put(name, count + 1);
-        }       
+        }
     }
-    
+
     private boolean itemIDNotExist(Item item) {
         boolean ok = true;
-            for(Item invItem : items){
-                if(item.getSerialId() == invItem.getSerialId()){
-                    ok = false;
-                    break;
-                }
+        for (Item invItem : items) {
+            if (item.getSerialId() == invItem.getSerialId()) {
+                ok = false;
+                break;
             }
-         return ok;
+        }
+        return ok;
     }
-    
-    public void deleteItem(Item item){
+
+    public void deleteItem(Item item) {
         items.remove(item);
         String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
         stock.put(name, stock.get(name) - 1);
     }
 
-
     public boolean notContains(int newItemID) {
         boolean notIn = true;
-        for(Item item : items){
-            if(item.getSerialId() == newItemID) {
+        for (Item item : items) {
+            if (item.getSerialId() == newItemID) {
                 notIn = false;
                 break;
             }
@@ -149,10 +139,10 @@ public class Inventory {
     }
 
     public Item getItem(int i) {
-       return items.get(i-1);
+        return items.get(i - 1);
     }
-    
-    public int getStockByName(String name){
+
+    public int getStockByName(String name) {
         String fname = name.contains("Backstage") ? "Backstage TAFKAL80ETC" : name;
         return stock.containsKey(fname) ? stock.get(fname) : -1;
     }

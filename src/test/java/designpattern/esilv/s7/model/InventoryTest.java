@@ -5,6 +5,7 @@
  */
 package designpattern.esilv.s7.model;
 
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -251,8 +252,6 @@ public class InventoryTest {
         // Sell an item
         inv.deleteItem(item);
         assertEquals(inv.getStockByName("Test"), 0);
-        
     }
-    
 }
 
