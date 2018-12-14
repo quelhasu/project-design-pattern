@@ -151,4 +151,9 @@ public class Inventory {
     public Item getItem(int i) {
        return items.get(i-1);
     }
+    
+    public int getStockByName(String name){
+        String fname = name.contains("Backstage") ? "Backstage TAFKAL80ETC" : name;
+        return stock.containsKey(fname) ? stock.get(fname) : -1;
+    }
 }

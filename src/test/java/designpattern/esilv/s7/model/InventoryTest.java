@@ -234,5 +234,25 @@ public class InventoryTest {
         inv.getItem(2);
     }
     
+    /**
+     * As a User, I can see if the PieChart is correctly updated
+     * We have to check the stock 
+     */
+    @Test
+    public void checkPieChartValue(){
+        Item item = new Item(1, "Test", 10, 11);
+        // Item not in inventory
+         assertEquals(inv.getStockByName("Test"), -1);
+        
+        // Buy an item
+        inv.addItem(item);
+        assertEquals(inv.getStockByName("Test"), 1);
+        
+        // Sell an item
+        inv.deleteItem(item);
+        assertEquals(inv.getStockByName("Test"), 0);
+        
+    }
+    
 }
 
