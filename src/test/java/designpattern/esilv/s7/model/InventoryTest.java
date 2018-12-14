@@ -222,5 +222,17 @@ public class InventoryTest {
         assertEquals(inv.getItem(1).getCreationDate(), now);
         
     }
+    
+    /** 
+     * As a User, I cannot add an Item if ID is already in the inventory
+     **/ 
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void checkIDItemAdded(){
+        inv.addItem(new Item(1, "Test item", 10, 11));
+        Item new_item = new Item(1, "Test Item", 10, 11);
+        inv.addItem(new_item);
+        inv.getItem(2);
+    }
+    
 }
 

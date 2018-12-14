@@ -106,23 +106,28 @@ public class Inventory {
 
     public void addItems(Item[] itemArray) {
         for(Item newItem : itemArray){
-            boolean ok = true;
-            for(Item invItem : items){
-                if(newItem.getSerialId() == invItem.getSerialId()){
-                    ok = false;
-                    continue;
-                }
-            }
-            if(ok) addItem(newItem);
+            addItem(newItem);
         }
     }
 
     public void addItem(Item item) {
-        items.add(item);
-        String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
-        int count = stock.containsKey(name) ? stock.get(name) : 0;
-        stock.put(name, count + 1);
-        
+        if(itemIDNotExist(item)){
+            items.add(item);
+            String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
+            int count = stock.containsKey(name) ? stock.get(name) : 0;
+            stock.put(name, count + 1);
+        }       
+    }
+    
+    private boolean itemIDNotExist(Item item) {
+        boolean ok = true;
+            for(Item invItem : items){
+                if(item.getSerialId() == invItem.getSerialId()){
+                    ok = false;
+                    break;
+                }
+            }
+         return ok;
     }
     
     public void deleteItem(Item item){
