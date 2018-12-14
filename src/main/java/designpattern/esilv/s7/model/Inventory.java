@@ -142,4 +142,8 @@ public class Inventory {
         }
         return notIn;
     }
+
+    public Item getItem(int i) {
+       return items.get(i-1);
+    }
 }

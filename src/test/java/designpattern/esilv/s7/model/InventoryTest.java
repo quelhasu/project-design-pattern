@@ -5,7 +5,9 @@
  */
 package designpattern.esilv.s7.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import static org.hamcrest.core.Is.is;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -209,6 +211,16 @@ public class InventoryTest {
                 }
             }
         }
+    }
+    
+    // As a User, I can check at what time was an item added.
+    @Test
+    public void checkTimeItemAdded(){
+        Item new_item = new Item(1, "Test Item", 10, 11);
+        String now = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        inv.addItem(new_item);
+        assertEquals(inv.getItem(1).getCreationDate(), now);
+        
     }
 }
 
