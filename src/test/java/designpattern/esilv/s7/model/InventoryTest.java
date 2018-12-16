@@ -253,5 +253,16 @@ public class InventoryTest {
         inv.deleteItem(item);
         assertEquals(inv.getStockByName("Test"), 0);
     }
+    
+    /**
+     * As a User, I can add an Item from a Json File
+     * We have to check the stock 
+     */    
+    @Test
+    public void checkAddItemFromJson(){
+        String json = "[ { \"serialId\": 1, \"name\": \"Conjured Mana Cake\", \"sellIn\": 3, \"quality\": 6 } ]";
+        inv.loadData(json);
+        assertEquals(inv.getItem(1).getName(), "Conjured Mana Cake");
+    }
 }
 
