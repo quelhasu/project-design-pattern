@@ -256,7 +256,6 @@ public class InventoryTest {
     
     /**
      * As a User, I can add an Item from a Json File
-     * We have to check the stock 
      */    
     @Test
     public void checkAddItemFromJson(){
@@ -264,5 +263,17 @@ public class InventoryTest {
         inv.loadData(json);
         assertEquals(inv.getItem(1).getName(), "Conjured Mana Cake");
     }
+    
+    /**
+     * As a User, I can add  Items from a Json File
+     */  
+    @Test
+    public void checkAddItemsFromJson(){
+        String json = ("[{\"serialId\": 2,\"name\": \"+5 Dexterity Vest\",\"sellIn\": 20,\"quality\": 30},{\"serialId\": 3,\"name\": \"Aged Brie\",\"sellIn\": 20,\"quality\": 10}]");
+        inv.loadData(json);
+        assertEquals(inv.getItem(2).getName(), "Aged Brie");
+    }
+    
+    
 }
 
