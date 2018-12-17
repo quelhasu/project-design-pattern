@@ -24,6 +24,8 @@ public class Inventory {
 //    private Item[] items;
     private ArrayList<Item> items;
     private HashMap<String, Integer> stock;
+    private HashMap<String, Integer> boughtItems;
+    private HashMap<String, Integer> soldItems;
 
     public Inventory(Item[] items) {
         super();
@@ -34,6 +36,8 @@ public class Inventory {
         super();
         items = new ArrayList<Item>();
         stock = new HashMap<String, Integer>();
+        boughtItems = new HashMap<String, Integer>();
+        soldItems = new HashMap<String, Integer>();
     }
 
     public void printInventory() {
@@ -145,5 +149,21 @@ public class Inventory {
     public int getStockByName(String name) {
         String fname = name.contains("Backstage") ? "Backstage TAFKAL80ETC" : name;
         return stock.containsKey(fname) ? stock.get(fname) : -1;
+    }
+
+    public void buyItem(Item newItem) {
+        if (itemIDNotExist(newItem)) {
+            addItem(newItem);
+            String now = new SimpleDateFormat("yyyy-MM-dd HH").format(Calendar.getInstance().getTime());
+            int count = boughtItems.containsKey(now) ? boughtItems.get(now) : 0;
+            stock.put(now, count + 1);
+        }
+    }
+    
+    public void sellItem(Item newItem) {
+            deleteItem(newItem);
+            String now = new SimpleDateFormat("yyyy-MM-dd HH").format(Calendar.getInstance().getTime());
+            int count = soldItems.containsKey(now) ? soldItems.get(now) : 0;
+            stock.put(now, count + 1);
     }
 }

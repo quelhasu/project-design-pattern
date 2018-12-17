@@ -142,7 +142,7 @@ public class FXMLController implements Initializable {
         try {
             newItem = new Item(Integer.parseInt(IdTf.getText()), typeTf.getText(), Integer.parseInt(sellInTf.getText()), Integer.parseInt(qualityTf.getText()));
             if (inv.notContains(Integer.parseInt(IdTf.getText()))) {
-                inv.addItem(newItem);
+                inv.buyItem(newItem);
                 infoLbl.setText("Item " + newItem.getSerialId() + " correctly bought!");
                 refreshItemsView();
                 refreshStockView();
@@ -161,9 +161,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void sellItem() {
         clearInput();
-        inv
-            .deleteItem(selectedItem
-            );
+        inv.sellItem(selectedItem);
         refreshItemsView();
         refreshStockView();
         infoLbl
@@ -212,7 +210,7 @@ public class FXMLController implements Initializable {
                     .getValue();
             PieChart.Data d
                 = new PieChart.Data(key,
-                     value
+                    value
                 );
             d
                 .setName(key
