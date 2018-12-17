@@ -271,9 +271,22 @@ public class InventoryTest {
     public void checkAddItemsFromJson(){
         String json = ("[{\"serialId\": 2,\"name\": \"+5 Dexterity Vest\",\"sellIn\": 20,\"quality\": 30},{\"serialId\": 3,\"name\": \"Aged Brie\",\"sellIn\": 20,\"quality\": 10}]");
         inv.loadData(json);
+        assertEquals(inv.getItem(1).getName(), "+5 Dexterity Vest");
         assertEquals(inv.getItem(2).getName(), "Aged Brie");
     }
     
-    
+    /**
+     * As a User, I can add  Items from a Json File on a non-empty inventory
+     */ 
+    @Test
+    public void checkDoubleAddItemsFromJson(){
+        String json1 = ("[{\"serialId\": 2,\"name\": \"+5 Dexterity Vest\",\"sellIn\": 20,\"quality\": 30},{\"serialId\": 3,\"name\": \"Aged Brie\",\"sellIn\": 20,\"quality\": 10}]");
+        inv.loadData(json1);
+        String json = "[ { \"serialId\": 1, \"name\": \"Conjured Mana Cake\", \"sellIn\": 3, \"quality\": 6 } ]";
+        inv.loadData(json);
+        assertEquals(inv.getItem(1).getName(), "+5 Dexterity Vest");
+        assertEquals(inv.getItem(2).getName(), "Aged Brie");
+        assertEquals(inv.getItem(3).getName(), "Conjured Mana Cake");
+    }
 }
 
