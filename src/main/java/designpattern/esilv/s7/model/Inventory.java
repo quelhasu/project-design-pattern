@@ -70,6 +70,14 @@ public class Inventory {
     public HashMap<String, Integer> getStock() {
         return stock;
     }
+    
+    public HashMap<String, Integer> getBoughtItems() {
+        return boughtItems;
+    }
+    
+    public HashMap<String, Integer> getSoldItems() {
+        return soldItems;
+    }
 
     public void setItems(ArrayList<Item> itemArray) {
         items = itemArray;
@@ -154,16 +162,16 @@ public class Inventory {
     public void buyItem(Item newItem) {
         if (itemIDNotExist(newItem)) {
             addItem(newItem);
-            String now = new SimpleDateFormat("yyyy-MM-dd HH").format(Calendar.getInstance().getTime());
+            String now = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
             int count = boughtItems.containsKey(now) ? boughtItems.get(now) : 0;
-            stock.put(now, count + 1);
+            boughtItems.put(now, count + 1);
         }
     }
     
     public void sellItem(Item newItem) {
             deleteItem(newItem);
-            String now = new SimpleDateFormat("yyyy-MM-dd HH").format(Calendar.getInstance().getTime());
+            String now = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
             int count = soldItems.containsKey(now) ? soldItems.get(now) : 0;
-            stock.put(now, count + 1);
+            soldItems.put(now, count + 1);
     }
 }
