@@ -8,24 +8,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.javafx.collections.MappingChange.Map;
 import designpattern.esilv.s7.controller.FXMLController;
+import java.io.FileWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import javafx.fxml.FXML;
 
 /**
- * TODO - updateSellin
  *
  * @author qunnamed
  */
 public class Inventory {
 
-//    private Item[] items;
     private ArrayList<Item> items;
+    private ArrayList<Item> boughtItems;
+    private ArrayList<Item> soldItems;
+
     private HashMap<String, Integer> stock;
-    private HashMap<String, Integer> boughtItems;
-    private HashMap<String, Integer> soldItems;
+    private HashMap<String, Integer> boughtItemsValue;
+    private HashMap<String, Integer> soldItemsValue;
 
     public Inventory(Item[] items) {
         super();
@@ -35,9 +39,11 @@ public class Inventory {
     public Inventory() {
         super();
         items = new ArrayList<Item>();
+        soldItems = new ArrayList<Item>();
+        boughtItems = new ArrayList<Item>();
         stock = new HashMap<String, Integer>();
-        boughtItems = new HashMap<String, Integer>();
-        soldItems = new HashMap<String, Integer>();
+        boughtItemsValue = new HashMap<String, Integer>();
+        soldItemsValue = new HashMap<String, Integer>();
     }
 
     public void printInventory() {
@@ -49,6 +55,9 @@ public class Inventory {
         System.out.println("\n");
     }
 
+    /**
+     * Update de quality of all the items
+     */
     public void updateQuality() {
         for (Item item : items) {
             UpdateStrategyFactory fact = new UpdateStrategyFactory(item);
@@ -56,42 +65,68 @@ public class Inventory {
         }
     }
 
-//    public static void main(String[] args) {
-//        Inventory inventory = new Inventory();
-//        for (int i = 0; i < 10; i++) {
-//            inventory.updateQuality();
-//            inventory.printInventory();
-//        }
-//    }
+    /**
+     * Get the items of all the inventory
+     */
     public ArrayList<Item> getItems() {
         return items;
     }
 
+    /**
+     * Get the stock with name and value of each type of item
+     */
     public HashMap<String, Integer> getStock() {
         return stock;
     }
-    
-    public HashMap<String, Integer> getBoughtItems() {
-        return boughtItems;
+
+    /**
+     * Get the bought items history
+     */
+    public HashMap<String, Integer> getBoughtItemsValue() {
+        return boughtItemsValue;
+    }
+
+    /**
+     * Get the sold items history
+     */
+    public HashMap<String, Integer> getSoldItemsValue() {
+        return soldItemsValue;
     }
     
-    public HashMap<String, Integer> getSoldItems() {
+    /**
+     * Get the bought items history
+     */
+    public ArrayList<Item> getBoughtItems() {
+        return boughtItems;
+    }
+
+    /**
+     * Get the sold items history
+     */
+    public ArrayList<Item> getSoldItems() {
         return soldItems;
     }
 
+    /**
+     * Set the inventory items from arrayList
+     */
     public void setItems(ArrayList<Item> itemArray) {
         items = itemArray;
     }
 
+    /**
+     * Load the data into the inventory from Json file
+     */
     public void loadData(String itemJson) {
         Gson gson = new Gson();
-        System.out.println("ZIZI : "  + itemJson);
         Item[] itemArray = gson.fromJson(itemJson, Item[].class);
-        setCreationDate(itemArray);
-
+//        setCreationDate(itemArray);
         addItems(itemArray);
     }
 
+    /**
+     * Update the stock values according to the inventory
+     */
     public void updateStock() {
         for (Item item : items) {
             int count = stock.containsKey(item.getName()) ? stock.get(item.getName()) : 0;
@@ -101,20 +136,32 @@ public class Inventory {
 
     }
 
+    /**
+     * Set the actual date time of all inventory
+     */
     private void setCreationDate(Item[] itemArray) {
         for (Item item : itemArray) {
             item.setCreationDate(new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()));
         }
     }
 
+    /**
+     * Add array of items in inventory
+     */
     public void addItems(Item[] itemArray) {
         for (Item newItem : itemArray) {
             addItem(newItem);
+            int count = boughtItemsValue.containsKey(newItem.getCreationDate()) ? boughtItemsValue.get(newItem.getCreationDate()) : 0;
+            boughtItemsValue.put(newItem.getCreationDate(), count + 1);
         }
     }
 
+    /**
+     * Add an item in inventory after verifying if it exists
+     */
     public void addItem(Item item) {
         if (itemIDNotExist(item)) {
+            boughtItems.add(item);
             items.add(item);
             String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
             int count = stock.containsKey(name) ? stock.get(name) : 0;
@@ -122,7 +169,10 @@ public class Inventory {
         }
     }
 
-    private boolean itemIDNotExist(Item item) {
+    /**
+     * Check if item exists
+     */
+    public boolean itemIDNotExist(Item item) {
         boolean ok = true;
         for (Item invItem : items) {
             if (item.getSerialId() == invItem.getSerialId()) {
@@ -131,12 +181,6 @@ public class Inventory {
             }
         }
         return ok;
-    }
-
-    public void deleteItem(Item item) {
-        items.remove(item);
-        String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
-        stock.put(name, stock.get(name) - 1);
     }
 
     public boolean notContains(int newItemID) {
@@ -150,36 +194,67 @@ public class Inventory {
         return notIn;
     }
 
+    /**
+     * Get the bought items history
+     */
+    public void deleteItem(Item item) {
+        items.remove(item);
+        soldItems.add(item);
+        String name = item.getName().contains("Backstage") ? "Backstage TAFKAL80ETC" : item.getName();
+        stock.put(name, stock.get(name) - 1);
+    }
+
+    /**
+     * Return item according to the place it belong
+     */
     public Item getItem(int i) {
         return items.get(i - 1);
     }
 
+    /**
+     * Get stock value by name
+     */
     public int getStockByName(String name) {
         String fname = name.contains("Backstage") ? "Backstage TAFKAL80ETC" : name;
         return stock.containsKey(fname) ? stock.get(fname) : -1;
     }
 
+    /**
+     * Update the bought items history
+     */
     public void buyItem(Item newItem) {
         if (itemIDNotExist(newItem)) {
             addItem(newItem);
-            String now = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
-            int count = boughtItems.containsKey(now) ? boughtItems.get(now) : 0;
-            boughtItems.put(now, count + 1);
+            String now = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+            int count = boughtItemsValue.containsKey(now) ? boughtItemsValue.get(now) : 0;
+            boughtItemsValue.put(now, count + 1);
         }
     }
-    
+
+    /**
+     * Update the sold items history
+     */
     public void sellItem(Item newItem) {
-            deleteItem(newItem);
-            String now = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
-            int count = soldItems.containsKey(now) ? soldItems.get(now) : 0;
-            soldItems.put(now, count + 1);
+        deleteItem(newItem);
+        String now = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        int count = soldItemsValue.containsKey(now) ? soldItemsValue.get(now) : 0;
+        soldItemsValue.put(now, count + 1);
     }
-    
+
+    /**
+     * return the bought items history
+     */
     public int getBoughtItemByName(String name) {
         return stock.containsKey(name) ? stock.get(name) : -1;
     }
-    
+
+    /**
+     * return the sold items history
+     */
     public int getSellItemByName(String name) {
-        return soldItems.containsKey(name) ? stock.get(name) : -1;
+        return soldItemsValue.containsKey(name) ? stock.get(name) : -1;
     }
+    
+    
+
 }

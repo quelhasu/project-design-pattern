@@ -3,12 +3,14 @@
     "serialId": 11,
     "name": "+5 Dexterity Vest",
     "sellIn": 10,
-    "quality": 20
+    "quality": 20,
+    "creationDate": "2018-01-11"
   },
   {
     "serialId": 1232,
     "name": "Backstage passes to a TAFKAL80ETC concert",
     "sellIn": 15,
-    "quality": 20
+    "quality": 20,
+    "creationDate": "2018-01-11"
   }
 ]

@@ -117,6 +117,14 @@
                   <FontAwesomeIconView fill="WHITE" glyphName="SPINNER" />
                </graphic>
             </Button>
+            <Button fx:id="loadBtn1" layoutX="920.0" layoutY="21.0" mnemonicParsing="false" onAction="#printHistory" prefHeight="34.0" prefWidth="133.0" style="-fx-border-color: FFFFFF; -fx-background-color: transparenttransparent; -fx-border-color: transparenttransparent;" text="Export" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="UPLOAD" />
+               </graphic>
+            </Button>
          </children>
       </Pane>
       <VBox layoutX="639.0" layoutY="81.0" prefHeight="398.0" prefWidth="441.0">
