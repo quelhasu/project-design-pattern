@@ -302,25 +302,24 @@ public class InventoryTest {
     }
     
     /**
-     * As a User, I can buy an Item
+     * As a User, I can buy an Item and check BuyList
      */ 
     @Test
     public void checkBuy(){
         Item item = new Item(1, "Test", 10, 11);
-        inv.addItem(item);
-        assertEquals(inv.getStockByName("Test"), 1);
+        inv.buyItem(item);
+        assertEquals(inv.getBoughtItemByName("Test"), 1);
     }
     
     /**
-     * As a User, I sell buy an Item
+     * As a User, I sell an Item and check SellList
      */ 
     @Test
     public void checkSell(){
         Item item = new Item(1, "Test", 10, 11);
-        inv.addItem(item);
-        assertEquals(inv.getStockByName("Test"), 1);
-        inv.deleteItem(item);
-        assertEquals(inv.getStockByName("Test"), 0);
+        inv.buyItem(item);
+        inv.sellItem(item);
+        assertEquals(inv.getSellItemByName("Test"), -1);
     }
     
     
