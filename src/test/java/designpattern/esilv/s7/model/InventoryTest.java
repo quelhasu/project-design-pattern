@@ -302,7 +302,7 @@ public class InventoryTest {
     }
     
     /**
-     * As a User, I can buy an Item and check BuyList
+     * As a User, I can buy an Item and check BuyList (when and what)
      */ 
     @Test
     public void checkBuy(){
@@ -312,7 +312,7 @@ public class InventoryTest {
     }
     
     /**
-     * As a User, I sell an Item and check SellList
+     * As a User, I sell an Item and check SellList (when and what)
      */ 
     @Test
     public void checkSell(){
