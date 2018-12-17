@@ -5,8 +5,8 @@
 
 ## Team
 [ROUVET Nicolas](https://github.com/nrouvet)
-[RAKOTONDRASOA Fenohanta](https://github.com/Vesg1)
-[SEGUIN Victor](https://github.com/Fenohanta)
+[RAKOTONDRASOA Fenohanta](https://github.com/Fenohanta)
+[SEGUIN Victor](https://github.com/Vesg1)
 [QUELHAS Ugo](https://github.com/quelhasu)
 
 
@@ -16,9 +16,10 @@
 
 # Stories JUnit
 
-1. As a User, I can upload a Gson to add items(list) in the store
-2. As a Client, I can buy an Item and make the numbers of one item decrease.
-3. As a User, I can add ONE item in the store
+1. As a User, I can add ONE item in the store
+2. As a User, I can buy an Item and make the size of the inventory increase.
+3. As a User, I can sell an Item and make the size of the inventory decrease.
+3. As a User, I can upload a json to add items(list) in the store
 4. As a User, I can actualize the pie chart when I upload the data.
 5. As a User, I can check at what time was an item added.
-6. As a User, I can visualize an history of the purchased items.
+6. As a User, I can check the size of the inventory.

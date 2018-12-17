@@ -174,4 +174,12 @@ public class Inventory {
             int count = soldItems.containsKey(now) ? soldItems.get(now) : 0;
             soldItems.put(now, count + 1);
     }
+    
+    public int getBoughtItemByName(String name) {
+        return stock.containsKey(name) ? stock.get(name) : -1;
+    }
+    
+    public int getSellItemByName(String name) {
+        return soldItems.containsKey(name) ? stock.get(name) : -1;
+    }
 }
