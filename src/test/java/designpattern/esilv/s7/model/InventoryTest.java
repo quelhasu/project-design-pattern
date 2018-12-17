@@ -288,5 +288,41 @@ public class InventoryTest {
         assertEquals(inv.getItem(2).getName(), "Aged Brie");
         assertEquals(inv.getItem(3).getName(), "Conjured Mana Cake");
     }
+    
+    /**
+     * As a User, I can check the number of Items of the Inventory
+     */ 
+    @Test
+    public void checkSize(){
+        String json1 = ("[{\"serialId\": 2,\"name\": \"+5 Dexterity Vest\",\"sellIn\": 20,\"quality\": 30},{\"serialId\": 3,\"name\": \"Aged Brie\",\"sellIn\": 20,\"quality\": 10}]");
+        inv.loadData(json1);
+        String json = "[ { \"serialId\": 1, \"name\": \"Conjured Mana Cake\", \"sellIn\": 3, \"quality\": 6 } ]";
+        inv.loadData(json);
+        assertEquals(inv.getItems().size(),3);
+    }
+    
+    /**
+     * As a User, I can buy an Item
+     */ 
+    @Test
+    public void checkBuy(){
+        Item item = new Item(1, "Test", 10, 11);
+        inv.addItem(item);
+        assertEquals(inv.getStockByName("Test"), 1);
+    }
+    
+    /**
+     * As a User, I sell buy an Item
+     */ 
+    @Test
+    public void checkSell(){
+        Item item = new Item(1, "Test", 10, 11);
+        inv.addItem(item);
+        assertEquals(inv.getStockByName("Test"), 1);
+        inv.deleteItem(item);
+        assertEquals(inv.getStockByName("Test"), 0);
+    }
+    
+    
 }
 
