@@ -5,7 +5,10 @@
  */
 package designpattern.esilv.s7.model;
 
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import static org.hamcrest.core.Is.is;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -210,5 +213,116 @@ public class InventoryTest {
             }
         }
     }
+    
+    // As a User, I can check at what time was an item added.
+    @Test
+    public void checkTimeItemAdded(){
+        Item new_item = new Item(1, "Test Item", 10, 11);
+        String now = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        inv.addItem(new_item);
+        assertEquals(inv.getItem(1).getCreationDate(), now);
+        
+    }
+    
+    /** 
+     * As a User, I cannot add an Item if ID is already in the inventory
+     **/ 
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void checkIDItemAdded(){
+        inv.addItem(new Item(1, "Test item", 10, 11));
+        Item new_item = new Item(1, "Test Item", 10, 11);
+        inv.addItem(new_item);
+        inv.getItem(2);
+    }
+    
+    /**
+     * As a User, I can see if the PieChart is correctly updated
+     * We have to check the stock 
+     */
+    @Test
+    public void checkPieChartValue(){
+        Item item = new Item(1, "Test", 10, 11);
+        // Item not in inventory
+         assertEquals(inv.getStockByName("Test"), -1);
+        
+        // Buy an item
+        inv.addItem(item);
+        assertEquals(inv.getStockByName("Test"), 1);
+        
+        // Sell an item
+        inv.deleteItem(item);
+        assertEquals(inv.getStockByName("Test"), 0);
+    }
+    
+    /**
+     * As a User, I can add an Item from a Json File
+     */    
+    @Test
+    public void checkAddItemFromJson(){
+        String json = "[ { \"serialId\": 1, \"name\": \"Conjured Mana Cake\", \"sellIn\": 3, \"quality\": 6 } ]";
+        inv.loadData(json);
+        assertEquals(inv.getItem(1).getName(), "Conjured Mana Cake");
+    }
+    
+    /**
+     * As a User, I can add  Items from a Json File
+     */  
+    @Test
+    public void checkAddItemsFromJson(){
+        String json = ("[{\"serialId\": 2,\"name\": \"+5 Dexterity Vest\",\"sellIn\": 20,\"quality\": 30},{\"serialId\": 3,\"name\": \"Aged Brie\",\"sellIn\": 20,\"quality\": 10}]");
+        inv.loadData(json);
+        assertEquals(inv.getItem(1).getName(), "+5 Dexterity Vest");
+        assertEquals(inv.getItem(2).getName(), "Aged Brie");
+    }
+    
+    /**
+     * As a User, I can add  Items from a Json File on a non-empty inventory
+     */ 
+    @Test
+    public void checkDoubleAddItemsFromJson(){
+        String json1 = ("[{\"serialId\": 2,\"name\": \"+5 Dexterity Vest\",\"sellIn\": 20,\"quality\": 30},{\"serialId\": 3,\"name\": \"Aged Brie\",\"sellIn\": 20,\"quality\": 10}]");
+        inv.loadData(json1);
+        String json = "[ { \"serialId\": 1, \"name\": \"Conjured Mana Cake\", \"sellIn\": 3, \"quality\": 6 } ]";
+        inv.loadData(json);
+        assertEquals(inv.getItem(1).getName(), "+5 Dexterity Vest");
+        assertEquals(inv.getItem(2).getName(), "Aged Brie");
+        assertEquals(inv.getItem(3).getName(), "Conjured Mana Cake");
+    }
+    
+    /**
+     * As a User, I can check the number of Items of the Inventory
+     */ 
+    @Test
+    public void checkSize(){
+        String json1 = ("[{\"serialId\": 2,\"name\": \"+5 Dexterity Vest\",\"sellIn\": 20,\"quality\": 30},{\"serialId\": 3,\"name\": \"Aged Brie\",\"sellIn\": 20,\"quality\": 10}]");
+        inv.loadData(json1);
+        String json = "[ { \"serialId\": 1, \"name\": \"Conjured Mana Cake\", \"sellIn\": 3, \"quality\": 6 } ]";
+        inv.loadData(json);
+        assertEquals(inv.getItems().size(),3);
+    }
+    
+    /**
+     * As a User, I can buy an Item
+     */ 
+    @Test
+    public void checkBuy(){
+        Item item = new Item(1, "Test", 10, 11);
+        inv.addItem(item);
+        assertEquals(inv.getStockByName("Test"), 1);
+    }
+    
+    /**
+     * As a User, I sell buy an Item
+     */ 
+    @Test
+    public void checkSell(){
+        Item item = new Item(1, "Test", 10, 11);
+        inv.addItem(item);
+        assertEquals(inv.getStockByName("Test"), 1);
+        inv.deleteItem(item);
+        assertEquals(inv.getStockByName("Test"), 0);
+    }
+    
+    
 }
 
